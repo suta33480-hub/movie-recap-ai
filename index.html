@@ -1,215 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CineRecap AI - Modern Movie Recap Studio</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Font Awesome for sleek modern icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineRecap - Movie Recap Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- AUTHENTICATION VIEW -->
-  <div id="auth-container" class="auth-wrapper">
-    <div class="auth-card">
-      <div class="brand">
-        <i class="fa-solid fa-clapperboard logo-icon"></i>
-        <h1>CineRecap <span>AI</span></h1>
-      </div>
-      <p class="auth-subtitle">Turn full-length movies into viral recaps in minutes.</p>
-
-      <form id="login-form">
-        <div class="input-group">
-          <label for="email">Email Address</label>
-          <div class="input-field">
-            <i class="fa-solid fa-envelope"></i>
-            <input type="email" id="email" placeholder="creator@cinema.ai" required>
-          </div>
+    <!-- Main Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <i class="fa-solid fa-clapperboard logo-icon"></i>
+                <span class="logo-text">Cine<span class="highlight">Recap</span></span>
+            </div>
+            <span class="badge live-badge"><i class="fa-solid fa-circle pulse"></i> Live Dashboard</span>
+        </div>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search movies, directors, themes, or plot points...">
+            <button class="clear-btn" id="clearSearch"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <div class="input-field">
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" id="password" placeholder="••••••••" required>
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">
-          <span>Sign In to Studio</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MAIN APP DASHBOARD VIEW -->
-  <div id="app-container" class="app-layout hidden">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-      <div class="brand">
-        <i class="fa-solid fa-clapperboard logo-icon"></i>
-        <h2>CineRecap</h2>
-      </div>
-
-      <nav class="nav-menu">
-        <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-film"></i> Projects</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-sliders"></i> AI Models</a>
-        <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
-      </nav>
-
-      <div class="user-profile">
-        <div class="avatar"><i class="fa-solid fa-user"></i></div>
-        <div class="user-info">
-          <span class="username" id="display-user">Creator Mode</span>
-          <span class="user-plan">Pro Tier</span>
-        </div>
-        <button id="logout-btn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
-      </div>
-    </aside>
-
-    <!-- Main Workspace -->
-    <main class="main-content">
-      <!-- Header Bar -->
-      <header class="top-header">
-        <div class="header-title">
-          <h1>Recap Studio Workspace</h1>
-          <p>Process video clips, generate voiceover scripts, and render subtitles.</p>
-        </div>
-        <div class="header-actions">
-          <button class="btn btn-outline"><i class="fa-solid fa-folder-open"></i> Load Project</button>
-        </div>
-      </header>
-
-      <!-- Dashboard Grid -->
-      <div class="dashboard-grid">
-        <!-- Left Panel: Video Upload & Player -->
-        <section class="card upload-section">
-          <div class="card-header">
-            <h3><i class="fa-solid fa-file-video"></i> Video Source</h3>
-            <span class="badge" id="video-status">No File Loaded</span>
-          </div>
-
-          <div class="upload-dropzone" id="dropzone">
-            <input type="file" id="video-input" accept="video/*" hidden>
-            <div class="dropzone-content" id="dropzone-content">
-              <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
-              <h4>Drag and drop movie file here</h4>
-              <p>Supports MP4, MKV, AVI (Max 2GB recommended)</p>
-              <button type="button" class="btn btn-secondary" onclick="document.getElementById('video-input').click()">
-                Browse Files
-              </button>
-            </div>
-            
-            <div class="video-preview-container hidden" id="preview-container">
-              <video id="video-player" controls></video>
-              <button class="btn-remove-video" id="remove-video-btn"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-        </section>
-
-        <!-- Right Panel: AI Generation Controls -->
-        <section class="card generation-section">
-          <div class="card-header">
-            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Script Generator</h3>
-          </div>
-
-          <div class="control-group">
-            <label for="script-style">Recap Style & Tone</label>
-            <select id="script-style" class="form-select">
-              <option value="dramatic">Dramatic & Suspenseful</option>
-              <option value="fast">Fast-Paced Action / Viral Shorts</option>
-              <option value="humorous">Humorous & Sarcastic</option>
-              <option value="detailed">Detailed Analytical Plot Breakdown</option>
-            </select>
-          </div>
-
-          <div class="control-group">
-            <label for="target-length">Target Duration</label>
-            <select id="target-length" class="form-select">
-              <option value="short">60 Seconds (Shorts/TikTok)</option>
-              <option value="medium">3-5 Minutes (Quick Recap)</option>
-              <option value="long">8-10 Minutes (Deep Dive)</option>
-            </select>
-          </div>
-
-          <button id="generate-script-btn" class="btn btn-primary btn-block" disabled>
-            <i class="fa-solid fa-robot"></i> Generate AI Recap Script
-          </button>
-
-          <!-- Script Output Area -->
-          <div class="script-output-container">
-            <div class="output-header">
-              <label>Generated Script Transcript</label>
-              <button class="btn-text" id="copy-script-btn"><i class="fa-solid fa-copy"></i> Copy</button>
-            </div>
-            <textarea id="script-editor" placeholder="Your AI-generated movie script will appear here. You can also manually edit it prior to exporting..."></textarea>
-          </div>
-        </section>
-
-        <!-- Bottom Panel: Subtitle Styling & Export -->
-        <section class="card subtitle-export-section">
-          <div class="card-header">
-            <h3><i class="fa-solid fa-closed-captioning"></i> Subtitle Styling & Export</h3>
-          </div>
-
-          <div class="subtitle-controls-grid">
-            <div class="control-group">
-              <label for="sub-font">Font Family</label>
-              <select id="sub-font" class="form-select">
-                <option value="Inter">Inter (Clean)</option>
-                <option value="Impact">Impact (Viral Shorts Style)</option>
-                <option value="Arial">Arial Bold</option>
-              </select>
-            </div>
-
-            <div class="control-group">
-              <label for="sub-size">Font Size</label>
-              <input type="range" id="sub-size" min="16" max="48" value="24" class="range-slider">
-            </div>
-
-            <div class="control-group">
-              <label for="sub-color">Text Color</label>
-              <input type="color" id="sub-color" value="#FFE600" class="color-picker">
-            </div>
-
-            <div class="control-group">
-              <label for="sub-bg">Background Fill</label>
-              <input type="color" id="sub-bg" value="#000000" class="color-picker">
-            </div>
-          </div>
-
-          <!-- Live Subtitle Preview Box -->
-          <div class="subtitle-preview-box">
-            <p id="subtitle-preview-text">"He never expected what would happen next in the facility..."</p>
-          </div>
-
-          <!-- Final Export Actions -->
-          <div class="export-actions">
-            <button id="export-srt-btn" class="btn btn-secondary">
-              <i class="fa-solid fa-file-arrow-down"></i> Export .SRT File
+        <div class="nav-right">
+            <button class="btn btn-secondary" id="addRecapBtn">
+                <i class="fa-solid fa-plus"></i> New Recap
             </button>
-            <button id="export-video-btn" class="btn btn-accent" disabled>
-              <i class="fa-solid fa-download"></i> Export Final Video (.MP4)
+            <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Theme">
+                <i class="fa-solid fa-moon"></i>
             </button>
-          </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dashboard-container">
+
+        <!-- Top Metrics Overview Bar -->
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon blue"><i class="fa-solid fa-film"></i></div>
+                <div class="metric-info">
+                    <span class="metric-value" id="totalRecapsCount">24</span>
+                    <span class="metric-label">Recaps Available</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon green"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div class="metric-info">
+                    <span class="metric-value">48.5 hrs</span>
+                    <span class="metric-label">Viewing Time Saved</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon purple"><i class="fa-solid fa-fire"></i></div>
+                <div class="metric-info">
+                    <span class="metric-value">Sci-Fi & Thriller</span>
+                    <span class="metric-label">Top Genres</span>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon gold"><i class="fa-solid fa-star"></i></div>
+                <div class="metric-info">
+                    <span class="metric-value">9.2 / 10</span>
+                    <span class="metric-label">Avg Recap Rating</span>
+                </div>
+            </div>
         </section>
-      </div>
+
+        <!-- Featured Spotlight Section -->
+        <section class="featured-spotlight">
+            <div class="spotlight-content">
+                <div class="spotlight-tag"><i class="fa-solid fa-bolt"></i> Spotlight Recap of the Week</div>
+                <h1 class="spotlight-title">Inception (2010) - Deep Dive Explained</h1>
+                <p class="spotlight-meta">
+                    <span><i class="fa-solid fa-user-ninja"></i> Dir: Christopher Nolan</span>
+                    <span><i class="fa-solid fa-clock"></i> 8 Min Read / Recap</span>
+                    <span><i class="fa-solid fa-hourglass-half"></i> Replaces 148m Film</span>
+                </p>
+                <p class="spotlight-description">
+                    A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past threatens to doom the team in the limbo level.
+                </p>
+                <div class="spotlight-actions">
+                    <button class="btn btn-primary" onclick="openRecapModal(1)">
+                        <i class="fa-solid fa-play"></i> Read Full Recap & Ending Explained
+                    </button>
+                    <button class="btn btn-outline" id="bookmarkFeatured">
+                        <i class="fa-regular fa-bookmark"></i> Save to Library
+                    </button>
+                </div>
+            </div>
+            <div class="spotlight-visual">
+                <div class="poster-frame">
+                    <div class="poster-overlay">
+                        <span class="rating-badge"><i class="fa-solid fa-star"></i> 8.8</span>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80" alt="Featured Movie Poster" class="poster-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Control Toolbar -->
+        <section class="toolbar">
+            <div class="category-pills" id="genreFilters">
+                <button class="pill active" data-genre="All">All Recaps</button>
+                <button class="pill" data-genre="Sci-Fi">Sci-Fi</button>
+                <button class="pill" data-genre="Thriller">Thriller</button>
+                <button class="pill" data-genre="Action">Action</button>
+                <button class="pill" data-genre="Drama">Drama</button>
+                <button class="pill" data-genre="Horror">Horror</button>
+            </div>
+
+            <div class="toolbar-right">
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-arrow-down-wide-short select-icon"></i>
+                    <select id="sortSelect">
+                        <option value="popular">Sort: Most Popular</option>
+                        <option value="newest">Sort: Newest Added</option>
+                        <option value="rating">Sort: Highest Rating</option>
+                        <option value="duration">Sort: Shortest Read</option>
+                    </select>
+                </div>
+                <div class="toggle-view">
+                    <button class="view-btn active" id="gridViewBtn" title="Grid View"><i class="fa-solid fa-grip"></i></button>
+                    <button class="view-btn" id="listViewBtn" title="List View"><i class="fa-solid fa-list"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Movie Recap Cards Grid -->
+        <section class="recap-grid" id="recapGrid">
+            <!-- Dynamic Content Injected via Script -->
+        </section>
+
     </main>
-  </div>
 
-  <!-- Processing Modal Overlay -->
-  <div id="loading-modal" class="modal-overlay hidden">
-    <div class="modal-card">
-      <div class="spinner"></div>
-      <h3 id="modal-status-text">Analyzing video keyframes...</h3>
-      <p>Our AI is extracting plot points and formatting narration script.</p>
+    <!-- Modal for Detailed Recap View -->
+    <div class="modal-overlay" id="recapModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <span class="genre-tag" id="modalGenre">Sci-Fi</span>
+                <h2 id="modalTitle">Movie Title</h2>
+                <div class="modal-meta" id="modalMeta"></div>
+            </div>
+            <div class="modal-body">
+                <div class="recap-section">
+                    <h3><i class="fa-solid fa-list-check"></i> 1-Minute Executive Summary</h3>
+                    <p id="modalExecutiveSummary"></p>
+                </div>
+
+                <div class="recap-section">
+                    <h3><i class="fa-solid fa-book-open"></i> Full Plot Breakdown & Key Beats</h3>
+                    <div id="modalPlotBeats"></div>
+                </div>
+
+                <div class="recap-section spoiler-box">
+                    <div class="spoiler-header">
+                        <h3><i class="fa-solid fa-key"></i> Climax & Ending Explained</h3>
+                        <button class="btn btn-sm btn-outline" id="toggleSpoilerBtn">
+                            <i class="fa-solid fa-eye"></i> Show Spoilers
+                        </button>
+                    </div>
+                    <div id="modalEndingContent" class="spoiler-content blurred"></div>
+                </div>
+
+                <div class="recap-section">
+                    <h3><i class="fa-solid fa-lightbulb"></i> Key Themes & Takeaways</h3>
+                    <ul id="modalThemes" class="theme-list"></ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()"><i class="fa-solid fa-check"></i> Done Reading</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Modal for Adding Custom Recap -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-card form-card">
+            <button class="modal-close" id="closeAddModal"><i class="fa-solid fa-xmark"></i></button>
+            <h2><i class="fa-solid fa-square-plus"></i> Add New Movie Recap</h2>
+            <form id="addRecapForm">
+                <div class="form-group">
+                    <label for="inputTitle">Movie Title</label>
+                    <input type="text" id="inputTitle" required placeholder="e.g., Interstellar">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputYear">Release Year</label>
+                        <input type="number" id="inputYear" required placeholder="2014">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputGenre">Genre</label>
+                        <select id="inputGenre" required>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Action">Action</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Horror">Horror</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inputRating">Rating (1 - 10)</label>
+                        <input type="number" id="inputRating" min="1" max="10" step="0.1" value="8.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputReadTime">Recap Read Time (mins)</label>
+                        <input type="number" id="inputReadTime" min="1" value="5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSummary">Quick Summary</label>
+                    <textarea id="inputSummary" rows="2" required placeholder="Brief overview of the plot..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputEnding">Ending Explained (Spoilers)</label>
+                    <textarea id="inputEnding" rows="3" required placeholder="Detailed breakdown of the twist and resolution..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAddBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Recap</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
