@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineRecap AI - Modern Movie Recap Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome for sleek modern icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- AUTHENTICATION VIEW -->
+  <div id="auth-container" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="brand">
+        <i class="fa-solid fa-clapperboard logo-icon"></i>
+        <h1>CineRecap <span>AI</span></h1>
+      </div>
+      <p class="auth-subtitle">Turn full-length movies into viral recaps in minutes.</p>
+
+      <form id="login-form">
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <div class="input-field">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="email" placeholder="creator@cinema.ai" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-field">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          <span>Sign In to Studio</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APP DASHBOARD VIEW -->
+  <div id="app-container" class="app-layout hidden">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-clapperboard logo-icon"></i>
+        <h2>CineRecap</h2>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-film"></i> Projects</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-sliders"></i> AI Models</a>
+        <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+
+      <div class="user-profile">
+        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+        <div class="user-info">
+          <span class="username" id="display-user">Creator Mode</span>
+          <span class="user-plan">Pro Tier</span>
+        </div>
+        <button id="logout-btn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Header Bar -->
+      <header class="top-header">
+        <div class="header-title">
+          <h1>Recap Studio Workspace</h1>
+          <p>Process video clips, generate voiceover scripts, and render subtitles.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-outline"><i class="fa-solid fa-folder-open"></i> Load Project</button>
+        </div>
+      </header>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Left Panel: Video Upload & Player -->
+        <section class="card upload-section">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-file-video"></i> Video Source</h3>
+            <span class="badge" id="video-status">No File Loaded</span>
+          </div>
+
+          <div class="upload-dropzone" id="dropzone">
+            <input type="file" id="video-input" accept="video/*" hidden>
+            <div class="dropzone-content" id="dropzone-content">
+              <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+              <h4>Drag and drop movie file here</h4>
+              <p>Supports MP4, MKV, AVI (Max 2GB recommended)</p>
+              <button type="button" class="btn btn-secondary" onclick="document.getElementById('video-input').click()">
+                Browse Files
+              </button>
+            </div>
+            
+            <div class="video-preview-container hidden" id="preview-container">
+              <video id="video-player" controls></video>
+              <button class="btn-remove-video" id="remove-video-btn"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Panel: AI Generation Controls -->
+        <section class="card generation-section">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Script Generator</h3>
+          </div>
+
+          <div class="control-group">
+            <label for="script-style">Recap Style & Tone</label>
+            <select id="script-style" class="form-select">
+              <option value="dramatic">Dramatic & Suspenseful</option>
+              <option value="fast">Fast-Paced Action / Viral Shorts</option>
+              <option value="humorous">Humorous & Sarcastic</option>
+              <option value="detailed">Detailed Analytical Plot Breakdown</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="target-length">Target Duration</label>
+            <select id="target-length" class="form-select">
+              <option value="short">60 Seconds (Shorts/TikTok)</option>
+              <option value="medium">3-5 Minutes (Quick Recap)</option>
+              <option value="long">8-10 Minutes (Deep Dive)</option>
+            </select>
+          </div>
+
+          <button id="generate-script-btn" class="btn btn-primary btn-block" disabled>
+            <i class="fa-solid fa-robot"></i> Generate AI Recap Script
+          </button>
+
+          <!-- Script Output Area -->
+          <div class="script-output-container">
+            <div class="output-header">
+              <label>Generated Script Transcript</label>
+              <button class="btn-text" id="copy-script-btn"><i class="fa-solid fa-copy"></i> Copy</button>
+            </div>
+            <textarea id="script-editor" placeholder="Your AI-generated movie script will appear here. You can also manually edit it prior to exporting..."></textarea>
+          </div>
+        </section>
+
+        <!-- Bottom Panel: Subtitle Styling & Export -->
+        <section class="card subtitle-export-section">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-closed-captioning"></i> Subtitle Styling & Export</h3>
+          </div>
+
+          <div class="subtitle-controls-grid">
+            <div class="control-group">
+              <label for="sub-font">Font Family</label>
+              <select id="sub-font" class="form-select">
+                <option value="Inter">Inter (Clean)</option>
+                <option value="Impact">Impact (Viral Shorts Style)</option>
+                <option value="Arial">Arial Bold</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="sub-size">Font Size</label>
+              <input type="range" id="sub-size" min="16" max="48" value="24" class="range-slider">
+            </div>
+
+            <div class="control-group">
+              <label for="sub-color">Text Color</label>
+              <input type="color" id="sub-color" value="#FFE600" class="color-picker">
+            </div>
+
+            <div class="control-group">
+              <label for="sub-bg">Background Fill</label>
+              <input type="color" id="sub-bg" value="#000000" class="color-picker">
+            </div>
+          </div>
+
+          <!-- Live Subtitle Preview Box -->
+          <div class="subtitle-preview-box">
+            <p id="subtitle-preview-text">"He never expected what would happen next in the facility..."</p>
+          </div>
+
+          <!-- Final Export Actions -->
+          <div class="export-actions">
+            <button id="export-srt-btn" class="btn btn-secondary">
+              <i class="fa-solid fa-file-arrow-down"></i> Export .SRT File
+            </button>
+            <button id="export-video-btn" class="btn btn-accent" disabled>
+              <i class="fa-solid fa-download"></i> Export Final Video (.MP4)
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Processing Modal Overlay -->
+  <div id="loading-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="spinner"></div>
+      <h3 id="modal-status-text">Analyzing video keyframes...</h3>
+      <p>Our AI is extracting plot points and formatting narration script.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
